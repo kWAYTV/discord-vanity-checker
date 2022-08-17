@@ -140,9 +140,9 @@ def check():
                 print(f"\n{Fore.GREEN}[{Fore.RESET}!{Fore.GREEN}] {Fore.RESET}Continuing{Fore.GREEN}!{Fore.RESET}")
                 continue
             if proxyless == True:
-                os.system(f"title Discord Vanity Checker - Free: {free} - Taken: {taken} - Blocked: {blocked} - Ratelimited: {ratelimited} - Mode: Proxyless [WARNING]")
+                os.system(f"title Discord Vanity Checker - Checked: {count}/{len(vanitys)} - Free: {free} - Taken: {taken} - Blocked: {blocked} - Ratelimited: {ratelimited} - Mode: Proxyless [WARNING]")
             elif proxyless == False:
-                os.system(f"title Discord Vanity Checker - Free: {free} - Taken: {taken} - Blocked: {blocked} - Ratelimited: {ratelimited} - Using proxy: {proxyDict}")
+                os.system(f"title Discord Vanity Checker - Checked: {count}/{len(vanitys)} - Free: {free} - Taken: {taken} - Blocked: {blocked} - Ratelimited: {ratelimited} - Using proxy: {proxyDict}")
 
 # Start the tool
 clear()
