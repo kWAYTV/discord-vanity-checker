@@ -64,12 +64,7 @@ def check():
     session = requests.Session()
     while True:
         for vanity in vanitys: 
-            if len(vanity) < 3:
-                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RED}{vanity}{Fore.RESET} is too short! Skipping...")
-                continue
-            if len(vanity) > 20:
-                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RED}{vanity}{Fore.RESET} is too long! Skipping...")
-                continue
+            vanity = vanity.lower()
             if proxyless == True:
                 r = requests.get(f'https://discord.com/api/v9/invites/{vanity}',headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0',
@@ -120,12 +115,12 @@ def check():
             count += 1
             if 'vanity_url_code' in (r.text):
                 taken += 1
-                print(f"{Fore.RED}[{Fore.RESET}-{Fore.RED}] {Fore.RESET}Taken: " + vanity + " - Checked: " +str(count))
+                print(f"{Fore.RED}[{Fore.RESET}-{Fore.RED}] {Fore.RESET}Taken: " + vanity)
                 with open('taken.txt', 'a') as f:
                     f.write(vanity + '\n')
             if 'Unknown Invite' in (r.text):
                 free += 1
-                print(f"{Fore.GREEN}[{Fore.RESET}+{Fore.GREEN}] {Fore.RESET}Free/Termed: "+ vanity + " - Checked: " +str(count))
+                print(f"{Fore.GREEN}[{Fore.RESET}+{Fore.GREEN}] {Fore.RESET}Free/Termed: "+ vanity)
                 with open('free.txt', 'a') as f:
                     f.write(vanity + '\n')
             if 'Access denied' in (r.text):
@@ -135,9 +130,15 @@ def check():
                     f.write(vanity + '\n')
             if 'retry_after' in (r.text):
                 ratelimited += 1
-                print(f"{Fore.RED}[{Fore.RESET}-{Fore.RED}] {Fore.RESET}Rate limited, please wait.")
+                print(f"{Fore.YELLOW}[{Fore.RESET}!{Fore.YELLOW}] {Fore.RESET}Ratelimited: {Fore.YELLOW}" + vanity + f"{Fore.RESET}. Sleeping for {Fore.RED}30{Fore.RESET} seconds...")
                 with open('ratelimited.txt', 'a') as f:
                     f.write(vanity + '\n')
+                for i in range(30,0,-1):
+                    sys.stdout.write(str(i)+' ')
+                    sys.stdout.flush()
+                    time.sleep(1)
+                print(f"\n{Fore.GREEN}[{Fore.RESET}!{Fore.GREEN}] {Fore.RESET}Continuing{Fore.GREEN}!{Fore.RESET}")
+                continue
             if proxyless == True:
                 os.system(f"title Discord Vanity Checker - Free: {free} - Taken: {taken} - Blocked: {blocked} - Ratelimited: {ratelimited} - Mode: Proxyless [WARNING]")
             elif proxyless == False:
